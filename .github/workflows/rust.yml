@@ -14,6 +14,12 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install deps
       run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libpng-dev libjpeg-dev libgl1-mesa-dev libglu1-mesa-dev libxkbcommon-dev libexpat1-dev libtiff-dev
+
+    - run: rustup component add rustfmt clippy
+
+    - run: cargo fmt --check
+    - run: cargo clippy --all-targets -- -D warnings
+
     - name: Build default features
       run: cargo build
     - name: Clean before feature test
@@ -38,8 +44,12 @@ jobs:
     steps:
     - uses: dtolnay/rust-toolchain@stable
     - uses: actions/checkout@v4
+
+    - run: rustup component add rustfmt clippy
+
     - run: cargo fmt --check
     - run: cargo clippy --all-targets -- -D warnings
+
     - name: Build default features
       run: cargo build
     - name: Clean before feature test
@@ -57,6 +67,12 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
+
+    - run: rustup component add rustfmt clippy
+
+    - run: cargo fmt --check
+    - run: cargo clippy -- -D warnings
+
     - name: Build default features
       run: |
         SET LIBCLANG_PATH="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\Llvm\x64\bin"
@@ -80,6 +96,12 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install i686 target
       run: rustup target add i686-pc-windows-msvc
+
+    - run: rustup component add rustfmt clippy
+
+    - run: cargo fmt --check
+    - run: cargo clippy --target i686-pc-windows-msvc -- -D warnings
+
     - name: Build for i686-pc-windows-msvc (32-bit)
       run: |
         SET LIBCLANG_PATH="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\Llvm\x64\bin"
@@ -109,6 +131,11 @@ jobs:
           C:\mingw64\mingw64\bin\gcc.exe --version
           C:\mingw64\mingw64\bin\g++.exe --version
           echo %PATH%
+
+      - run: rustup component add rustfmt clippy
+
+      - run: cargo fmt --check
+      - run: cargo clippy -- -D warnings
 
       - name: Build default features
         shell: cmd

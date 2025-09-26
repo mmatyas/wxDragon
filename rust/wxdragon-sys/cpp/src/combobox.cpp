@@ -95,6 +95,37 @@ WXD_EXPORTED int wxd_ComboBox_GetValue(wxd_ComboBox_t* combo, char* buffer, int 
     return wxd_cpp_utils::copy_wxstring_to_buffer(value, buffer, (size_t)buffer_len);
 }
 
+// Text Selection Functions (inherited from wxTextEntry)
+WXD_EXPORTED void wxd_ComboBox_GetTextSelection(wxd_ComboBox_t* combo, long* from, long* to) {
+    if (!combo || !from || !to) return;
+    wxComboBox* cb = (wxComboBox*)combo;
+    cb->GetSelection(from, to);
+}
+
+WXD_EXPORTED void wxd_ComboBox_SetTextSelection(wxd_ComboBox_t* combo, long from, long to) {
+    if (!combo) return;
+    wxComboBox* cb = (wxComboBox*)combo;
+    cb->SetSelection(from, to);
+}
+
+WXD_EXPORTED long wxd_ComboBox_GetInsertionPoint(wxd_ComboBox_t* combo) {
+    if (!combo) return 0;
+    wxComboBox* cb = (wxComboBox*)combo;
+    return cb->GetInsertionPoint();
+}
+
+WXD_EXPORTED void wxd_ComboBox_SetInsertionPoint(wxd_ComboBox_t* combo, long pos) {
+    if (!combo) return;
+    wxComboBox* cb = (wxComboBox*)combo;
+    cb->SetInsertionPoint(pos);
+}
+
+WXD_EXPORTED long wxd_ComboBox_GetLastPosition(wxd_ComboBox_t* combo) {
+    if (!combo) return 0;
+    wxComboBox* cb = (wxComboBox*)combo;
+    return cb->GetLastPosition();
+}
+
 // Destroy handled by parent window
 
 } // extern "C" 

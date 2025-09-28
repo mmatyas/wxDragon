@@ -98,6 +98,7 @@ WXD_EXPORTED bool wxd_StyledTextCtrl_GetModify(wxd_StyledTextCtrl_t* self);
 WXD_EXPORTED void wxd_StyledTextCtrl_SetSavePoint(wxd_StyledTextCtrl_t* self);
 
 // Find and replace
+WXD_EXPORTED void wxd_StyledTextCtrl_SearchAnchor(wxd_StyledTextCtrl_t* self);
 WXD_EXPORTED int wxd_StyledTextCtrl_FindText(wxd_StyledTextCtrl_t* self, int min_pos, int max_pos, const char* text, int flags);
 WXD_EXPORTED int wxd_StyledTextCtrl_SearchNext(wxd_StyledTextCtrl_t* self, int search_flags, const char* text);
 WXD_EXPORTED int wxd_StyledTextCtrl_SearchPrev(wxd_StyledTextCtrl_t* self, int search_flags, const char* text);

@@ -1163,6 +1163,14 @@ impl StyledTextCtrl {
 
     // --- Find and Replace ---
 
+    pub fn search_anchor(&self) {
+        unsafe {
+            ffi::wxd_StyledTextCtrl_SearchAnchor(
+                self.window.as_ptr() as *mut ffi::wxd_StyledTextCtrl_t
+            )
+        }
+    }
+
     /// Find text in the document with specified flags
     pub fn find_text(
         &self,

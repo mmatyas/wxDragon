@@ -912,4 +912,20 @@ WXD_EXPORTED int wxd_StyledTextCtrl_WordEndPosition(wxd_StyledTextCtrl_t* self, 
     return -1;
 }
 
+// Wrap mode operations
+WXD_EXPORTED void wxd_StyledTextCtrl_SetWrapMode(wxd_StyledTextCtrl_t* self, int wrap_mode) {
+    wxStyledTextCtrl* ctrl = (wxStyledTextCtrl*)self;
+    if (ctrl) {
+        ctrl->SetWrapMode(wrap_mode);
+    }
+}
+
+WXD_EXPORTED int wxd_StyledTextCtrl_GetWrapMode(wxd_StyledTextCtrl_t* self) {
+    wxStyledTextCtrl* ctrl = (wxStyledTextCtrl*)self;
+    if (ctrl) {
+        return ctrl->GetWrapMode();
+    }
+    return 0;
+}
+
 } // extern "C" 

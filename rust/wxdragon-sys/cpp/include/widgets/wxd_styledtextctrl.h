@@ -174,4 +174,8 @@ WXD_EXPORTED bool wxd_StyledTextCtrl_GetFoldExpanded(wxd_StyledTextCtrl_t* self,
 WXD_EXPORTED int wxd_StyledTextCtrl_WordStartPosition(wxd_StyledTextCtrl_t* self, int pos, bool only_word_chars);
 WXD_EXPORTED int wxd_StyledTextCtrl_WordEndPosition(wxd_StyledTextCtrl_t* self, int pos, bool only_word_chars);
 
+// Wrap mode operations
+WXD_EXPORTED void wxd_StyledTextCtrl_SetWrapMode(wxd_StyledTextCtrl_t* self, int wrap_mode);
+WXD_EXPORTED int wxd_StyledTextCtrl_GetWrapMode(wxd_StyledTextCtrl_t* self);
+
 #endif // WXD_STYLEDTEXTCTRL_H 

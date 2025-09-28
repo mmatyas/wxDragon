@@ -245,6 +245,14 @@ typedef enum {
     // ADDED: CollapsiblePane event
     WXD_EVENT_TYPE_COLLAPSIBLEPANE_CHANGED = 142, // Event for CollapsiblePane when expanded/collapsed
 
+    // ADDED: TreeListCtrl event types
+    WXD_EVENT_TYPE_TREELIST_SELECTION_CHANGED = 143, // Event for TreeListCtrl selection changed
+    WXD_EVENT_TYPE_TREELIST_ITEM_CHECKED = 144,      // Event for TreeListCtrl item checked/unchecked
+    WXD_EVENT_TYPE_TREELIST_ITEM_ACTIVATED = 145,    // Event for TreeListCtrl item activated (double-click)
+    WXD_EVENT_TYPE_TREELIST_COLUMN_SORTED = 146,     // Event for TreeListCtrl column header clicked
+    WXD_EVENT_TYPE_TREELIST_ITEM_EXPANDING = 147,    // Event for TreeListCtrl item expanding
+    WXD_EVENT_TYPE_TREELIST_ITEM_EXPANDED = 148,     // Event for TreeListCtrl item expanded
+
     WXD_EVENT_TYPE_TIMER = 200, // Added wxTimer event
 
     // Mouse enter/leave events
@@ -614,5 +622,6 @@ typedef struct wxd_SystemAppearance_t wxd_SystemAppearance_t;
 
 // RichText types
 typedef struct wxd_RichTextCtrl_t wxd_RichTextCtrl_t;
+typedef struct wxd_TreeListCtrl_t wxd_TreeListCtrl_t;
 
 #endif // WXD_TYPES_H 

@@ -148,7 +148,10 @@ WXD_EXPORTED void wxd_TextCtrl_SetSelection(wxd_TextCtrl_t* textCtrl, wxd_Long_t
 WXD_EXPORTED void wxd_TextCtrl_GetSelection(wxd_TextCtrl_t* textCtrl, wxd_Long_t* from, wxd_Long_t* to) {
     wxTextCtrl* ctrl = (wxTextCtrl*)textCtrl;
     if (ctrl && from && to) {
-        ctrl->GetSelection(from, to);
+        long from_long, to_long;
+        ctrl->GetSelection(&from_long, &to_long);
+        *from = static_cast<wxd_Long_t>(from_long);
+        *to = static_cast<wxd_Long_t>(to_long);
     }
 }
 

@@ -11,6 +11,7 @@
 #include <wx/window.h> // For wxCloseEvent
 #include <wx/tglbtn.h> // ADDED for wxEVT_TOGGLEBUTTON
 #include <wx/treectrl.h> // ADDED: For wxEVT_TREE_* constants
+#include <wx/treelist.h> // ADDED: For wxEVT_TREELIST_* constants
 #include <wx/slider.h> // ADDED: For wxEVT_SCROLL_CHANGED etc.
 #include <wx/spinctrl.h> // ADDED: For wxEVT_SPINCTRL
 #include <wx/spinbutt.h> // ADDED: For wxEVT_SPIN*
@@ -714,7 +715,15 @@ static wxEventType get_wx_event_type_for_c_enum(WXDEventTypeCEnum c_enum_val) {
         case WXD_EVENT_TYPE_TREE_END_LABEL_EDIT: return wxEVT_TREE_END_LABEL_EDIT;
         case WXD_EVENT_TYPE_TREE_SEL_CHANGED: return wxEVT_TREE_SEL_CHANGED;
         case WXD_EVENT_TYPE_TREE_ITEM_ACTIVATED: return wxEVT_TREE_ITEM_ACTIVATED;
-        
+
+        // TreeListCtrl events
+        case WXD_EVENT_TYPE_TREELIST_SELECTION_CHANGED: return wxEVT_TREELIST_SELECTION_CHANGED;
+        case WXD_EVENT_TYPE_TREELIST_ITEM_CHECKED: return wxEVT_TREELIST_ITEM_CHECKED;
+        case WXD_EVENT_TYPE_TREELIST_ITEM_ACTIVATED: return wxEVT_TREELIST_ITEM_ACTIVATED;
+        case WXD_EVENT_TYPE_TREELIST_COLUMN_SORTED: return wxEVT_TREELIST_COLUMN_SORTED;
+        case WXD_EVENT_TYPE_TREELIST_ITEM_EXPANDING: return wxEVT_TREELIST_ITEM_EXPANDING;
+        case WXD_EVENT_TYPE_TREELIST_ITEM_EXPANDED: return wxEVT_TREELIST_ITEM_EXPANDED;
+
         // Slider and spin control events
         case WXD_EVENT_TYPE_SLIDER: return wxEVT_SLIDER;
         case WXD_EVENT_TYPE_SPINCTRL: return wxEVT_SPINCTRL;
@@ -1352,5 +1361,40 @@ WXD_EXPORTED void wxd_Event_SetCanVeto(wxd_Event_t* event, bool can_veto) {
         // wxNotifyEvent doesn't have SetCanVeto method, it's always vetable
         // No action needed for wxNotifyEvent-derived events
         return;
+    }
+}
+
+// --- TreeListCtrl Event Accessors ---
+
+WXD_EXPORTED wxd_Long_t wxd_TreeListEvent_GetItem(wxd_Event_t* event) {
+    if (!event) return 0;
+    wxEvent* wx_event = reinterpret_cast<wxEvent*>(event);
+    wxTreeListEvent* tl_event = dynamic_cast<wxTreeListEvent*>(wx_event);
+    if (!tl_event) return 0;
+
+    wxTreeListItem item = tl_event->GetItem();
+    return (wxd_Long_t)item.GetID();
+}
+
+WXD_EXPORTED int wxd_TreeListEvent_GetColumn(wxd_Event_t* event) {
+    if (!event) return -1;
+    wxEvent* wx_event = reinterpret_cast<wxEvent*>(event);
+    wxTreeListEvent* tl_event = dynamic_cast<wxTreeListEvent*>(wx_event);
+    if (!tl_event) return -1;
+
+    return tl_event->GetColumn();
+}
+
+WXD_EXPORTED int wxd_TreeListEvent_GetOldCheckedState(wxd_Event_t* event) {
+    if (!event) return -1;
+    wxEvent* wx_event = reinterpret_cast<wxEvent*>(event);
+    wxTreeListEvent* tl_event = dynamic_cast<wxTreeListEvent*>(wx_event);
+    if (!tl_event) return -1;
+
+    wxCheckBoxState state = tl_event->GetOldCheckedState();
+    switch (state) {
+        case wxCHK_CHECKED: return 1;
+        case wxCHK_UNDETERMINED: return 2;
+        default: return 0; // wxCHK_UNCHECKED
     }
 }

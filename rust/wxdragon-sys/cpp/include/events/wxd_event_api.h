@@ -68,6 +68,11 @@ WXD_EXPORTED bool wxd_DataViewEvent_GetValue(wxd_Event_t* event, wxd_Variant_t* 
 WXD_EXPORTED bool wxd_DataViewEvent_SetValue(wxd_Event_t* event, const wxd_Variant_t* value);
 WXD_EXPORTED bool wxd_DataViewEvent_IsEditCancelled(wxd_Event_t* event);
 
+// TreeListCtrl event accessors
+WXD_EXPORTED wxd_Long_t wxd_TreeListEvent_GetItem(wxd_Event_t* event);
+WXD_EXPORTED int wxd_TreeListEvent_GetColumn(wxd_Event_t* event);
+WXD_EXPORTED int wxd_TreeListEvent_GetOldCheckedState(wxd_Event_t* event);
+
 // Rust callback for dropping closure box
 WXD_EXPORTED void drop_rust_closure_box(void* ptr);
 

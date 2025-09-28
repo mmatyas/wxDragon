@@ -55,6 +55,7 @@
 #include <wx/mediactrl.h>
 #include <wx/dataview.h> // ADDED: Needed for wxDataView styles and constants
 #include <wx/taskbar.h> // ADDED: Needed for TaskBarIcon constants
+#include <wx/sysopt.h> // For wxSystemOptions
 
 // A simple application class that initializes wxWidgets
 class ConstExtractorApp : public wxApp {
@@ -69,6 +70,7 @@ public:
 wxIMPLEMENT_APP_NO_MAIN(ConstExtractorApp);
 
 int main(int argc, char **argv) {
+    wxSystemOptions::SetOption("msw.no-manifest-check", 1);
     // Initialize wxWidgets to ensure event types are properly initialized
     wxApp::SetInstance(new ConstExtractorApp());
     wxEntryStart(argc, argv);
@@ -676,6 +678,11 @@ int main(int argc, char **argv) {
     constants_to_extract.push_back({"wxWS_SIZEBOX", wxRESIZE_BORDER}); // Alias for wxRESIZE_BORDER
     constants_to_extract.push_back({"wxWS_SYSMENU", wxSYSTEM_MENU}); // Already defined above
     constants_to_extract.push_back({"wxWS_TABSTOP", 0x00010000L}); // Tab stop for controls
+
+    // Navigation direction constants
+    constants_to_extract.push_back({"wxNAVIGATION_NEXT", 0});
+    constants_to_extract.push_back({"wxNAVIGATION_PREVIOUS", 1});
+
     constants_to_extract.push_back({"wxWS_THICKFRAME", wxRESIZE_BORDER}); // Same as wxWS_SIZEBOX
     constants_to_extract.push_back({"wxWS_TILED", 0x00000000L}); // Same as wxWS_OVERLAPPED
     constants_to_extract.push_back({"wxWS_VISIBLE", 0x10000000L}); // Initially visible

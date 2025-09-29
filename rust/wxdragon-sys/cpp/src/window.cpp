@@ -878,4 +878,13 @@ WXD_EXPORTED bool wxd_Window_Navigate(wxd_Window_t* window, int flags) {
     return false;
 }
 
+WXD_EXPORTED bool wxd_Window_PopupMenu(wxd_Window_t* window, wxd_Menu_t* menu, wxd_Point pt) {
+    wxWindow* wx_window = reinterpret_cast<wxWindow*>(window);
+    wxMenu* wx_menu = reinterpret_cast<wxMenu*>(menu);
+    if (wx_window && wx_menu) {
+        return wx_window->PopupMenu(wx_menu, wxPoint(pt.x, pt.y));
+    }
+    return false;
+}
+
 } // extern "C"

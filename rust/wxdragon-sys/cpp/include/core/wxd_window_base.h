@@ -125,6 +125,7 @@ WXD_EXPORTED void wxd_Window_MoveBeforeInTabOrder(wxd_Window_t* window, wxd_Wind
 WXD_EXPORTED wxd_Window_t* wxd_Window_GetNextSibling(wxd_Window_t* window);
 WXD_EXPORTED wxd_Window_t* wxd_Window_GetPrevSibling(wxd_Window_t* window);
 WXD_EXPORTED bool wxd_Window_Navigate(wxd_Window_t* window, int flags);
+WXD_EXPORTED bool wxd_Window_PopupMenu(wxd_Window_t* window, wxd_Menu_t* menu, wxd_Point pt);
 
 // --- Platform-specific Functions ---
 /// Gets the native handle of the window (platform-specific)

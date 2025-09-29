@@ -321,6 +321,12 @@ typedef enum {
     WXD_EVENT_TYPE_TASKBAR_BALLOON_TIMEOUT = 337,       // wxEVT_TASKBAR_BALLOON_TIMEOUT
     WXD_EVENT_TYPE_TASKBAR_BALLOON_CLICK = 338,         // wxEVT_TASKBAR_BALLOON_CLICK
 
+    // NEW: Menu event types
+    WXD_EVENT_TYPE_MENU_OPEN = 350,                     // wxEVT_MENU_OPEN
+    WXD_EVENT_TYPE_MENU_CLOSE = 351,                    // wxEVT_MENU_CLOSE
+    WXD_EVENT_TYPE_MENU_HIGHLIGHT = 352,                // wxEVT_MENU_HIGHLIGHT
+    WXD_EVENT_TYPE_CONTEXT_MENU = 353,                  // wxEVT_CONTEXT_MENU
+
     WXD_EVENT_TYPE_MAX // Keep this last for count if needed, or remove if not used for iteration
 } WXDEventTypeCEnum;
 

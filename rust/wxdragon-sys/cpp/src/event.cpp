@@ -28,6 +28,7 @@
 #include <wx/fontpicker.h> // ADDED: For wxEVT_FONTPICKER_CHANGED
 #include <wx/notifmsg.h> // For wxNotificationMessage events
 #include <wx/dnd.h> // ADDED: For drag and drop events (wxEVT_BEGIN_DRAG, wxEVT_DROP_TEXT, etc.)
+#include <wx/menu.h> // NEW: For wxMenuEvent and wxEVT_MENU_* events
 #include <wx/timectrl.h> // ADDED: For wxTimePickerCtrl and wxEVT_TIME_CHANGED
 #if wxdUSE_MEDIACTRL
 #include <wx/mediactrl.h> // ADDED: For MediaCtrl events
@@ -656,7 +657,24 @@ WXD_EXPORTED int wxd_ScrollEvent_GetOrientation(wxd_Event_t* event) {
 static wxEventType get_wx_event_type_for_c_enum(WXDEventTypeCEnum c_enum_val);
 
 static WXDEventTypeCEnum get_c_enum_for_wx_event_type(wxEventType wx_event_type) {
-    // This is a bit inefficient, but it's simple and should be correct
+    // Direct comparison with wxWidgets constants (more reliable than loop)
+    if (wx_event_type == wxEVT_CONTEXT_MENU) {
+        return WXD_EVENT_TYPE_CONTEXT_MENU;
+    }
+    if (wx_event_type == wxEVT_MENU_OPEN) {
+        return WXD_EVENT_TYPE_MENU_OPEN;
+    }
+    if (wx_event_type == wxEVT_MENU_CLOSE) {
+        return WXD_EVENT_TYPE_MENU_CLOSE;
+    }
+    if (wx_event_type == wxEVT_MENU_HIGHLIGHT) {
+        return WXD_EVENT_TYPE_MENU_HIGHLIGHT;
+    }
+    if (wx_event_type == wxEVT_MENU) {
+        return WXD_EVENT_TYPE_MENU;
+    }
+
+    // Fallback to the original loop for other event types
     for (int i = WXD_EVENT_TYPE_NULL; i < WXD_EVENT_TYPE_MAX; i++) {
         WXDEventTypeCEnum c_enum = static_cast<WXDEventTypeCEnum>(i);
         wxEventType wx_type = get_wx_event_type_for_c_enum(c_enum);
@@ -664,19 +682,40 @@ static WXDEventTypeCEnum get_c_enum_for_wx_event_type(wxEventType wx_event_type)
             return c_enum;
         }
     }
+
     // If we can't find a matching C enum, return NULL
     return WXD_EVENT_TYPE_NULL;
 }
 
 // Add the implementation of wxd_Event_GetEventType
-wxEventType wxd_Event_GetEventType(wxd_Event_t* event) {
-    if (!event || !event->event) {
-        wxLogWarning("wxd_Event_GetEventType called with null event or null event->event");
-        return wxEVT_NULL;
+WXDEventTypeCEnum wxd_Event_GetEventType(wxd_Event_t* event) {
+    if (!event) {
+        return WXD_EVENT_TYPE_NULL;
     }
-    wxEventType eventType = event->event->GetEventType();
+    wxEvent* wx_event = (wxEvent*)event;
+    wxEventType eventType = wx_event->GetEventType();
+
+    // PRIORITY: Use dynamic casting for menu events (more reliable than integer comparison)
+    // Try wxContextMenuEvent first
+    wxContextMenuEvent* ctx_event = wxDynamicCast(wx_event, wxContextMenuEvent);
+    if (ctx_event) {
+        return WXD_EVENT_TYPE_CONTEXT_MENU;
+    }
+
+    // Try wxMenuEvent
+    wxMenuEvent* menu_event = wxDynamicCast(wx_event, wxMenuEvent);
+    if (menu_event) {
+        // Use direct wxEventType comparison with the actual dynamic constants
+        if (eventType == wxEVT_MENU_OPEN) return WXD_EVENT_TYPE_MENU_OPEN;
+        if (eventType == wxEVT_MENU_CLOSE) return WXD_EVENT_TYPE_MENU_CLOSE;
+        if (eventType == wxEVT_MENU_HIGHLIGHT) return WXD_EVENT_TYPE_MENU_HIGHLIGHT;
+        // Fallback for regular menu events
+        if (eventType == wxEVT_MENU) return WXD_EVENT_TYPE_MENU;
+    }
+
+    // Standard conversion for all other event types
     WXDEventTypeCEnum c_enum_val = get_c_enum_for_wx_event_type(eventType);
-    return eventType;
+    return c_enum_val;
 }
 
 // Implement get_wx_event_type_for_c_enum to handle the mapping
@@ -1002,7 +1041,13 @@ static wxEventType get_wx_event_type_for_c_enum(WXDEventTypeCEnum c_enum_val) {
             return wxEVT_NULL; // Event not available on this platform
             #endif
         #endif
-        
+
+        // NEW: Menu event types - use actual dynamic wxWidgets constants
+        case WXD_EVENT_TYPE_MENU_OPEN: return wxEVT_MENU_OPEN;
+        case WXD_EVENT_TYPE_MENU_CLOSE: return wxEVT_MENU_CLOSE;
+        case WXD_EVENT_TYPE_MENU_HIGHLIGHT: return wxEVT_MENU_HIGHLIGHT;
+        case WXD_EVENT_TYPE_CONTEXT_MENU: return wxEVT_CONTEXT_MENU;
+
         default: return wxEVT_NULL;
     }
 }
@@ -1397,4 +1442,72 @@ WXD_EXPORTED int wxd_TreeListEvent_GetOldCheckedState(wxd_Event_t* event) {
         case wxCHK_UNDETERMINED: return 2;
         default: return 0; // wxCHK_UNCHECKED
     }
+}
+
+// --- NEW: Menu Event Accessors ---
+
+WXD_EXPORTED int wxd_MenuEvent_GetMenuId(wxd_Event_t* event) {
+    if (!event) {
+        return -1;
+    }
+
+    wxEvent* wx_event = (wxEvent*)event;
+
+    // Check event type first
+    wxEventType eventType = wx_event->GetEventType();
+    if (eventType != wxEVT_MENU_OPEN && eventType != wxEVT_MENU_CLOSE && eventType != wxEVT_MENU_HIGHLIGHT) {
+        return -1;
+    }
+
+    wxMenuEvent* menu_event = wxDynamicCast(wx_event, wxMenuEvent);
+    if (menu_event) {
+        return menu_event->GetMenuId();
+    }
+
+    return -1;
+}
+
+WXD_EXPORTED bool wxd_MenuEvent_IsPopup(wxd_Event_t* event) {
+    if (!event) {
+        return false;
+    }
+
+    wxEvent* wx_event = (wxEvent*)event;
+
+    // Check event type first
+    wxEventType eventType = wx_event->GetEventType();
+    if (eventType != wxEVT_MENU_OPEN && eventType != wxEVT_MENU_CLOSE && eventType != wxEVT_MENU_HIGHLIGHT) {
+        return false;
+    }
+
+    wxMenuEvent* menu_event = wxDynamicCast(wx_event, wxMenuEvent);
+    if (menu_event) {
+        return menu_event->IsPopup();
+    }
+
+    return false;
+}
+
+WXD_EXPORTED wxd_Point wxd_ContextMenuEvent_GetPosition(wxd_Event_t* event) {
+    wxd_Point result = {-1, -1};
+    if (!event) {
+        return result;
+    }
+
+    wxEvent* wx_event = (wxEvent*)event;
+
+    // Check event type first
+    wxEventType eventType = wx_event->GetEventType();
+    if (eventType != wxEVT_CONTEXT_MENU) {
+        return result;
+    }
+
+    wxContextMenuEvent* ctx_event = wxDynamicCast(wx_event, wxContextMenuEvent);
+    if (ctx_event) {
+        wxPoint pos = ctx_event->GetPosition();
+        result.x = pos.x;
+        result.y = pos.y;
+    }
+
+    return result;
 }

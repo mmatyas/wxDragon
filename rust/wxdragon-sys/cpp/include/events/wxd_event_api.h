@@ -23,7 +23,7 @@ WXD_EXPORTED void wxd_EvtHandler_BindWithId(wxd_EvtHandler_t* evt_handler, WXDEv
 WXD_EXPORTED int wxd_Event_GetId(wxd_Event_t* event);
 WXD_EXPORTED wxd_Window_t* wxd_Event_GetEventObject(wxd_Event_t* event);
 WXD_EXPORTED void wxd_Event_Skip(wxd_Event_t* event, bool skip);
-WXD_EXPORTED wxEventType wxd_Event_GetEventType(wxd_Event_t* event);
+WXD_EXPORTED WXDEventTypeCEnum wxd_Event_GetEventType(wxd_Event_t* event);
 
 WXD_EXPORTED int wxd_CommandEvent_GetString(wxd_Event_t* event, char* buffer, int buffer_len);
 WXD_EXPORTED bool wxd_CommandEvent_IsChecked(wxd_Event_t* event);
@@ -127,6 +127,13 @@ WXD_EXPORTED bool wxd_Event_CanVeto(wxd_Event_t* event);
 WXD_EXPORTED void wxd_Event_Veto(wxd_Event_t* event);
 WXD_EXPORTED bool wxd_Event_IsVetoed(wxd_Event_t* event);
 WXD_EXPORTED void wxd_Event_SetCanVeto(wxd_Event_t* event, bool can_veto);
+
+// NEW: Menu event specific accessors
+WXD_EXPORTED int wxd_MenuEvent_GetMenuId(wxd_Event_t* event);
+WXD_EXPORTED bool wxd_MenuEvent_IsPopup(wxd_Event_t* event);
+
+// NEW: Context menu event specific accessors
+WXD_EXPORTED wxd_Point wxd_ContextMenuEvent_GetPosition(wxd_Event_t* event);
 
 #ifdef __cplusplus
 }

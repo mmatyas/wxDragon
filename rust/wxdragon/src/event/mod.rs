@@ -10,6 +10,7 @@ use wxdragon_sys as ffi;
 pub mod button_events;
 pub mod event_data;
 pub mod macros;
+pub mod menu_events;
 pub mod scroll_events;
 pub mod taskbar_events;
 pub mod text_events;
@@ -34,6 +35,9 @@ pub use tree_events::{TreeEvent, TreeEventData, TreeEvents};
 // Re-export scroll events for easier access
 pub use scroll_events::{ScrollEvent, ScrollEventData, ScrollEvents};
 
+// Re-export menu events for easier access
+pub use menu_events::{MenuEvent, MenuEventData, MenuEvents};
+
 // Re-export taskbar events for easier access
 #[cfg(any(target_os = "windows", target_os = "linux"))]
 pub use taskbar_events::{TaskBarIconEvent, TaskBarIconEventData};
@@ -56,6 +60,11 @@ pub struct EventType: ffi::WXDEventTypeCEnum { // Use the generated C enum type
     const TEXT_ENTER = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_TEXT_ENTER;
     const SIZE = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_SIZE;
     const MENU = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_MENU;
+    // NEW: Menu event types
+    const MENU_OPEN = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_MENU_OPEN;
+    const MENU_CLOSE = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_MENU_CLOSE;
+    const MENU_HIGHLIGHT = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_MENU_HIGHLIGHT;
+    const CONTEXT_MENU = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_CONTEXT_MENU;
     const LEFT_DOWN = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_LEFT_DOWN;
     const LEFT_UP = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_LEFT_UP;
     const RIGHT_DOWN = ffi::WXDEventTypeCEnum_WXD_EVENT_TYPE_RIGHT_DOWN;

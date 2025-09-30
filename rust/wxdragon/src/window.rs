@@ -1601,6 +1601,35 @@ impl Window {
             None
         }
     }
+
+    /// Shows a popup menu at the specified position or at the current mouse position.
+    ///
+    /// # Parameters
+    ///
+    /// * `menu` - The menu to display
+    /// * `pos` - Optional position where to show the menu. If `None`, the menu is shown at the current mouse position.
+    ///
+    /// # Returns
+    ///
+    /// `true` if a menu item was selected, `false` otherwise
+    ///
+    /// # Example
+    ///
+    /// ```ignore
+    /// let menu = Menu::builder()
+    ///     .append_item(1001, "Option 1", "")
+    ///     .append_item(1002, "Option 2", "")
+    ///     .build();
+    /// window.popup_menu(&menu, None);
+    /// ```
+    pub fn popup_menu(&self, menu: &crate::Menu, pos: Option<crate::geometry::Point>) -> bool {
+        let pos_ptr = pos
+            .as_ref()
+            .map(|p| p as *const crate::geometry::Point as *const ffi::wxd_Point)
+            .unwrap_or(std::ptr::null());
+
+        unsafe { ffi::wxd_Window_PopupMenu(self.handle_ptr(), menu.as_ptr(), pos_ptr) }
+    }
 }
 
 /// Trait for downcasting wxWidgets to specific types.

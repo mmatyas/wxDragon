@@ -130,4 +130,9 @@ WXD_EXPORTED bool wxd_Window_Navigate(wxd_Window_t* window, int flags);
 /// Gets the native handle of the window (platform-specific)
 WXD_EXPORTED void* wxd_Window_GetHandle(wxd_Window_t* window);
 
+// --- Popup Menu Functions ---
+/// Shows a popup menu at the specified position (or current mouse position if NULL)
+/// Returns true if a menu item was selected, false otherwise
+WXD_EXPORTED bool wxd_Window_PopupMenu(wxd_Window_t* window, wxd_Menu_t* menu, const wxd_Point* pos);
+
 #endif // WXD_WINDOW_BASE_H 

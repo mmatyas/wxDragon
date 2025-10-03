@@ -6,7 +6,7 @@ on:
       wx_version:
         description: 'wxWidgets version to build'
         required: true
-        default: '3.3.0'
+        default: '3.3.1'
         type: string
       force_rebuild:
         description: 'Force rebuild even if release exists'
@@ -233,18 +233,25 @@ jobs:
             -DwxBUILD_TESTS=OFF
             -DwxBUILD_DEMOS=OFF
             -DwxBUILD_BENCHMARKS=OFF
-            -DwxUSE_EXCEPTIONS=ON
+            -DwxBUILD_LOCALES=OFF
+            -DwxUSE_EXCEPTIONS=OFF
             -DwxUSE_GUI=ON
             -DwxUSE_OPENGL=ON
-            -DwxUSE_HTML=ON
-            -DwxUSE_WEBVIEW=ON
-            -DwxUSE_MEDIACTRL=ON
-            -DwxUSE_STC=ON
+            -DwxUSE_HTML=OFF
+            -DwxUSE_WEBVIEW=OFF
+            -DwxUSE_MEDIACTRL=OFF
+            -DwxUSE_STC=OFF
             -DwxUSE_XRC=ON
             -DwxUSE_XML=ON
-            -DwxUSE_AUI=ON
+            -DwxUSE_AUI=OFF
             -DwxUSE_PROPGRID=ON
             -DwxUSE_LIBWEBP=OFF
+            -DwxUSE_LIBJPEG=OFF
+            -DwxUSE_LIBTIFF=OFF
+            -DwxUSE_NANOSVG=OFF
+            -DwxUSE_RICHTEXT=OFF
+            -DwxUSE_REGEX=OFF
+            -DwxUSE_WXHTML_HELP=OFF
           )
           
           # Platform-specific configuration
@@ -349,18 +356,25 @@ jobs:
             -DwxBUILD_TESTS=OFF
             -DwxBUILD_DEMOS=OFF
             -DwxBUILD_BENCHMARKS=OFF
-            -DwxUSE_EXCEPTIONS=ON
+            -DwxBUILD_LOCALES=OFF
+            -DwxUSE_EXCEPTIONS=OFF
             -DwxUSE_GUI=ON
             -DwxUSE_OPENGL=ON
-            -DwxUSE_HTML=ON
-            -DwxUSE_WEBVIEW=ON
-            -DwxUSE_MEDIACTRL=ON
-            -DwxUSE_STC=ON
+            -DwxUSE_HTML=OFF
+            -DwxUSE_WEBVIEW=OFF
+            -DwxUSE_MEDIACTRL=OFF
+            -DwxUSE_STC=OFF
             -DwxUSE_XRC=ON
             -DwxUSE_XML=ON
-            -DwxUSE_AUI=ON
+            -DwxUSE_AUI=OFF
             -DwxUSE_PROPGRID=ON
             -DwxUSE_LIBWEBP=OFF
+            -DwxUSE_LIBJPEG=OFF
+            -DwxUSE_LIBTIFF=OFF
+            -DwxUSE_NANOSVG=OFF
+            -DwxUSE_RICHTEXT=OFF
+            -DwxUSE_REGEX=OFF
+            -DwxUSE_WXHTML_HELP=OFF
           )
           
           CMAKE_ARGS+=(

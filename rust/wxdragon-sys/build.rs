@@ -216,7 +216,7 @@ fn download_prebuilt_libraries(
     let artifact_name = format!("wxwidgets-{wx_version}-{target_triple}-{profile}");
 
     let download_url = format!(
-        "https://github.com/AllenDang/wxDragon/releases/download/wxwidgets-{wx_version}/{artifact_name}.tar.gz"
+        "https://github.com/mmatyas/wxDragon/releases/download/wxwidgets-{wx_version}/{artifact_name}.tar.gz"
     );
 
     let tarball_dest_path = target_dir.join(format!("{artifact_name}.tar.gz"));
